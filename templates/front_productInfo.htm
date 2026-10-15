@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Precision Instruments;Low Earth Satellite;Energy Development;stark inductries co, LTD.;">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+ 	<link rel="stylesheet" href="{{ url_for('static', filename='css/front.css') }}" >
+  <title>產品資訊</title>
+  <style>
+		body {
+			width: 100%;
+		}
+	</style>
+</head>
+<body>
+   <table class="table table-dark productItemInfo table-sm table-bordered">
+     <tr>
+       <th width="20%">產品名稱：</th><td width="40%">{{product.name}}</td>
+       <th colspan="2" width="40%">產品圖示</th>
+     </tr>
+      <tr>
+       <th >更新時間：</th><td><script>document.write(new Date(Number({{product.lastUpdate}}) * 1000).toLocaleString());</script></td>
+       <td rowspan="4" colspan="2"><img style="width: 100%; height: auto;" src="{{product.imgpath}}"></td>
+     </tr>
+     <tr>
+       <th>產品材質：</th><td>{{product.material}}</td>       
+     </tr>
+     <tr>
+       <th rowspan="2">產品尺寸：</th>
+       <td rowspan="2"><pre>{{product.dimension}}</pre></td>
+     </tr>
+     <tr></tr>
+    <tr>
+      <th rowspan="2">備註：</th>
+      <td rowspan="2" colspan="3"><pre>{{product.info}}</pre></td>
+     </tr>
+   </table>   
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="Precision Instruments;Low Earth Satellite;Energy Development;stark inductries co, LTD.;">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/front.css') }}" >
+	<style>
+		body {
+			width: 100%;					
+		}
+	</style>
+  <title>新聞</title>  
+  <script>
+    function changeFrame(id) {
+      location.href = `/news/newsinfo/${id}`;
+    }
+    var newsList = {{news | tojson}};
+    var pagelength = Math.ceil(newsList.length / 20);
+    var newNews = [];
+    var currentPage = 1;
+  </script>
+</head>
+
+<body>
+  <div id="topic">
+  	<table class="table table-sm table-dark" style="font-size:20px; text-align: center;" id="rawTable">
+    </table>
+  </div>
+  <br>
+  <div id="page"></div>
+  <script>
+  function newPageList(page = 1){
+    if (page === "<")
+      currentPage--;
+    else if( page === ">")
+      currentPage++;
+    else
+      currentPage = page;
+    
+    if (currentPage < 1)
+      currentPage = 1;
+		
+    if (currentPage > pagelength)
+      currentPage = pagelength;
+    
+    newNews = newsList.slice((currentPage-1) * 20, currentPage*20);
+    let table = document.getElementById("rawTable");
+    table.replaceChildren();
+    table.innerHTML += `
+    <tr>
+      <th width="10%">編號</th>
+      <th>標題</th>
+      <th width="15%">新增時間</th>
+      <th width="15%">更新時間</th>
+    </tr>
+    `;
+    let tr;
+    let td;    
+    for(let row of newNews){
+      tr = table.insertRow();
+      td = tr.insertCell();
+      td.textContent = row['newsid'];
+      td = tr.insertCell();
+      td.innerHTML = `<a href="#"  onclick=\"changeFrame(${row['newsid']})\">${row['title']}</a>`;
+      td = tr.insertCell();
+      td.textContent = new Date(Number(row['addtime']) * 1000).toLocaleString();
+      td = tr.insertCell();
+      td.textContent = new Date(Number(row['lastUpdate']) * 1000).toLocaleString();
+    }
+  }
+  newPageList();
+		
+	let pageObject = document.getElementById("page");
+	if (newsList.length >= 20){
+		let a = document.createElement("a");
+		a.onclick="newPageList('<')";
+		a.innerHTML = '〈';
+		pageObject.appendChild(a);
+		for (let i = 0; i < pagelength; i++){
+			a = document.createElement("a");
+			a.onclick = `"newPageList(${i})"`;
+			a.innerHTML = i+1;
+			pageObject.appendChild(a);
+		}
+		a = document.createElement("a");
+		a.onclick="newPageList('>')";
+		a.innerHTML = '〉';
+		pageObject.appendChild(a);
+	}
+</script>
+</body>
+</html>

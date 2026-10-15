@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Precision Instruments;Low Earth Satellite;Energy Development;stark inductries co, LTD.;">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/front.css') }}" >
+  <title>首頁</title>
+  <style>
+    body{
+      width: 100%;
+    }
+    
+  </style>
+</head>
+<body>  
+  <div class="banner">
+    <div id="mainImage">
+      <img src="" /> 
+    </div>
+    <div id="subImageList">
+       <div class="subImage">
+        <img src="" onclick="setMainImage(0)">
+      </div>
+       <div class="subImage">
+        <img src="" onclick="setMainImage(1)">
+      </div>
+       <div class="subImage">
+        <img src="" onclick="setMainImage(2)">
+      </div>
+       <div class="subImage">
+        <img src="" onclick="setMainImage(3)">
+      </div>
+       <div class="subImage">
+        <img src="" onclick="setMainImage(4)">
+      </div>
+    </div>
+  </div>  
+  <hr />
+  <div id="history">
+    <h2>歷史前沿</h2>
+    <h3></h3>
+    <pre></pre>
+  </div>
+  <hr />
+  <div class="news">
+     <h2>最新消息</h2>
+    <!-- 取最新三個新聞 底下...可跳到新聞頁面 -->
+    <table class="table table-sm table-dark" style="font-size:20px; text-align: center;" id="rawTable" >
+      <tr>
+        <th width="10%">編號</th>
+        <th width="50%">標題</th>
+        <th width="20%">新增時間</th>
+        <th width="20%">更新時間</th>
+      </tr>
+     {% for row in news %}
+     <tr>
+       <td>{{row.newsid}}</td>
+       <td><a href="/news/newsinfo/{{row.newsid}}" target="_self">{{row.title}}</a></td>
+       <td><script>document.write(new Date(Number({{row.addtime}}) * 1000).toLocaleString(3));</script></td>
+       <td><script>document.write(new Date(Number({{row.lastUpdate}}) * 1000).toLocaleString(3));</script></td>
+       <td>{{row.info}}</td>
+     </tr>
+     {% endfor %}
+    </table>
+  </div>
+  <hr />
+  <div class="info">
+   <h2>設備環境</h2>
+    <!-- 隨機挑六張圖 每排3個 -->
+    <div class="infoRow">
+      <div class="infoItem">
+        <img src="">
+        <p></p>
+      </div>
+      <div class="infoItem">
+        <img src="">
+        <p></p>
+      </div>
+      <div class="infoItem">
+        <img src="">
+        <p></p>
+      </div>
+    </div>    
+    <div class="infoRow">
+      <div class="infoItem">
+        <img src="">
+        <p></p>
+      </div>
+      <div class="infoItem">
+        <img src="">
+        <p></p>
+      </div>
+      <div class="infoItem">
+        <img src="">
+        <p></p>
+      </div>
+    </div>
+  </div>
+  <script>
+    const bannerList = {{banner | tojson}};
+    const historyList = {{history | tojson}};
+    const infoList = {{info | tojson}};
+
+    var bannerShowList = null;
+    var infoShowList = null;
+    var mainImage = document.querySelector("#mainImage img");
+    
+    // 歷史前沿
+    var historyRecord = historyList[Math.floor(Math.random() * historyList.length)];
+    let history = document.getElementById("history");
+    history.querySelector("h3").innerHTML = historyRecord.title;
+    history.querySelector("pre").innerHTML = historyRecord.content;
+    
+    // 環境設備
+    function setInfoShowList(){     
+      const shuffled = infoList.sort(() => Math.random() - 0.5);
+      let infoShowList = shuffled.slice(0, 6);
+      
+      let infoItems = document.getElementsByClassName("infoItem");
+      for(let i = 0; i < infoShowList.length ; i++ ){
+        infoItems[i].querySelector("img").src = infoShowList[i].imgpath.replaceAll("\\", "/");
+        infoItems[i].querySelector("p").innerHTML = infoShowList[i].title;
+      }
+    }
+
+    setInfoShowList();    
+    
+    var subImage = document.getElementsByClassName("subImage");
+    
+    // 輪播小圖片
+    function setBannerShowList(){
+      const shuffled = bannerList.sort(() => Math.random() - 0.5);
+      let bannerShowList = shuffled.slice(0, 5);
+
+      bannerShowList = Array.from(bannerShowList);      
+      
+      for(let i = 0; i < bannerShowList.length ; i++ ){
+        subImage[i].querySelector("img").src = bannerShowList[i].imgpath.replaceAll("\\", "/");
+      }
+    }
+    
+    setBannerShowList();
+    
+
+    let mainIndex = 0;
+    
+    // 輪播大圖片
+    function setMainImage(i){
+      if (bannerList.length == 0) return;
+      subImage[mainIndex].querySelector("img").style.border = 'none';      
+      
+      if(i !== undefined)
+        mainIndex = i;
+      else
+        mainIndex++;
+      if (mainIndex === subImage.length) mainIndex = 0;
+      
+      mainImage.src = subImage[mainIndex].querySelector("img").src;
+      subImage[mainIndex].querySelector("img").style.border = ".5vw solid red";
+      
+    }    
+    
+    setMainImage();
+    
+    setInterval(setBannerShowList, 1000 * 60 * 5);
+    setInterval(setMainImage, 1000 * 10);
+    
+    
+    // 回傳iframe頁面高度
+    function sendHeight() {
+      const height = document.body.scrollHeight;
+      window.parent.postMessage({ height: height }, "*");
+    }
+
+    // 頁面載入完成時發送
+    window.addEventListener("load", sendHeight);
+
+    // 當視窗大小改變時重新計算（因響應式排版高度會變）
+    window.addEventListener("resize", sendHeight);
+  </script>
+</body>
+</html>

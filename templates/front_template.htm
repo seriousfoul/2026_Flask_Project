@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Precision Instruments;Low Earth Satellite;Energy Development;stark inductries co, LTD.;">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/front.css') }}" >
+    <title> 史打客工業有限公司 </title>    
+</head>
+<body>
+   <div class="top">
+     <div class="header">
+      <a href="/" target="_self">
+        <img src="{{url_for('static', filename='img/structure/logo2.webp')}}" alt="logo" />
+      </a>
+      <div class="brandSlogan">
+       <pre>{{brandSlogan}}</pre>
+      </div>
+     </div>
+     <div class="nav">
+      <a href="#" onclick="setIframe('index'); return false;" >公司介紹</a>
+      <a href="#" onclick="setIframe('features'); return false;">產品特色</a>
+      <a href="#" onclick="setIframe('products'); return false;" >產品介紹</a>
+      <a href="#" onclick="setIframe('news'); return false;">最新消息</a>
+      <a href="#" onclick="setIframe('faq'); return false;">常見問題</a>
+      <a href="#" onclick="setIframe('downloads'); return false;">型錄下載</a>
+      <a href="#" onclick="setIframe('contactus'); return false;" >聯絡我們</a>
+    </div>
+   </div>   
+
+  
+    <div class="frontFrame">
+        <iframe id="page" src="" ></iframe>
+    </div>
+    
+    <footer>
+      <div class="footer">           
+        <div class="footer-links">
+          <div class="footer-info">
+            <h4>關於我們</h4><br />
+            <span>公司名稱： {{company.name}}</span> <br />
+            <span>EMail： {{company.email}}</span> <br />
+            <span>地址：{{company.address}}</span><br />
+            <span>電話：{{company.phone}}</span><br />
+            <span>傳真：{{company.fax}}</span><br />
+            <span>服務時間：</span><br />
+            <pre>{{company.servicetime}} </pre>            
+          </div>
+          <div class="footer-info"><h4>人才招募</h4></div>
+          <div class="footer-info"><h4>法務</h4></div>
+          <div class="footer-info"><h4>隱私</h4></div> 
+        </div>
+        <div class="footer-author"><p>create by 106095532 簡文翊</p></div>    
+      </div>
+    </footer>
+</body>
+
+<script>
+    window.addEventListener("message", function(event) {
+        if (event.data.msg) {
+            alert(event.data.msg);
+        }
+        if (event.data.route){
+            document.getElementById("page").src = event.data.route;
+        }
+        if (event.data.height) {
+          document.getElementById("page").style.height = event.data.height + "px";
+        }
+    });
+    
+    function setIframe(typeName) {
+        document.getElementById("page").src = `/${typeName}`;
+    }  
+  
+    setIframe("index");
+</script>
+</html>

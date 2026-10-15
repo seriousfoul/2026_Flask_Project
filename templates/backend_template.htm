@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh-Tw">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/backend.css') }}"> 
+    <title>史打克工業後台管理系統</title>    
+</head>
+<body>
+	<div class="backend">
+			<div class="backendMainMenu">
+					<img src="{{ url_for('static', filename='img/structure/logo1.webp') }}" ><br>
+					{% for mainType, typeName in menu.items()%}
+							<button class="btn btn-outline-danger" onclick="setIframe('{{mainType}}')" >{{typeName}}</button><br>
+					{% endfor%}
+			</div>
+			<div class="backendInfo">
+					<iframe id="page" src="" height="100%"></iframe>
+			</div>
+	</div>
+</body>
+<script>
+    window.addEventListener("message", function(event) {
+        if (event.data.msg) {
+            alert(event.data.msg);
+        }
+        if (event.data.route){
+            document.getElementById("page").src = event.data.route;
+        }
+    });
+
+    function setIframe(typeName) {
+        document.getElementById("page").src = `/backend/${typeName}`;
+    }
+</script>
+</html>

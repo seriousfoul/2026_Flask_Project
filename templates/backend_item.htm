@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="zh-Tw">
+
+<head>
+  <meta charset="UTF-8">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/backend.css') }}" >
+  <title>史打克工業後端管理系統</title>
+</head>
+
+
+<body id="iframeBody">
+	<div class="backendSubMenu">
+		{% for type in subMenu %}
+		<button class="btn btn-outline-warning" onclick="changeFrame('{{mainType}}','{{type.type}}')">{{type.get('typeName')}}</button>
+		{% endfor%}
+	</div>
+	<div class="formSet">
+		<form action="/internal/{{mainType}}/{{subType}}" method="POST" enctype="multipart/form-data">
+			<fieldset>
+				<legend>新增{{ (subMenu | selectattr('type', 'equalto', subType) | first).typeName }}</legend>
+				<div class="mb-3">
+					<label class="form-label" for="topic">種類：</label>
+					<select name="categoryid">
+					{% for topic in topics %}
+						<option value="{{topic.get('categoryid')}}">{{topic.get('name')}}</option>
+					{% endfor %}
+					</select><br>
+					<label class="form-label" for="name">名稱：</label>
+					<input class="form-control" name="name" required/><br>
+					<label class="form-label" for="image">圖片：</label>
+					<input class="form-control" type="file" name="image" /><br>
+					<label class="form-label" for="dimension">尺寸：</label>
+					<textarea class="form-control" name="dimension" rows="5" cols="50" required></textarea>
+					<label class="form-label" for="material">材質：</label>
+					<input class="form-control" name="material" required/><br>
+					<label class="form-label" for="info">備註：</label><br>
+					<textarea class="form-control" name="info" rows="10" cols="50" ></textarea><br>            
+				</div>          
+				<input class="btn btn-danger" type="submit" value="送出" />
+			</fieldset>
+		</form>
+	</div>
+	<hr>
+	{% if data %}
+	<div>
+		<h2>{{ (subMenu | selectattr('type', 'equalto', subType) | first).typeName }}資料表</h2>
+		<table class="table table-dark" id="rawTable" border="1">
+				<tr class="table-danger">
+						<th>#</th>
+						<th>種類</th>
+						<th>名稱</th>
+						<th width="20%">圖片</th>
+						<th width="15%">尺寸</th>
+						<th>材質</th>
+						<th width="20%">備註</th>
+						<th>新增時間</th>
+						<th>修改時間</th>
+						<th>修改</th>
+						<th>刪除</th>
+				</tr>
+				{% for row in data%}
+				<tr>
+						<td>{{row.itemid}}</td>
+						<td>{{topics[row.categoryid-1].get('name')}}</td>
+						<td>{{row.name}}</td>
+						<td><div class="showImage"><img width="100%" height="100%" src="{{row.imgpath}}" /></div></td>
+						<td><pre>{{row.dimension}}</pre></td>
+						<td>{{row.material}}</td>
+						<td><pre>{{row.info}}</pre></td>
+						<td><script>document.write(new Date(Number({{row.addtime}}) * 1000).toLocaleString());</script></td>
+						<td><script>document.write(new Date(Number({{row.lastUpdate}}) * 1000).toLocaleString());</script></td>
+						<td><span  onclick='putData(
+								{{ row.itemid | tojson }},
+								{{ row.categoryid | tojson }},
+								{{ row.name | tojson }},
+								{{ row.dimension | tojson }},
+								{{ row.material | tojson }},
+								{{ row.info | tojson }},
+						)'>🛠️</span></td>
+						<td><span onclick="deleteData({{ row.itemid | tojson }});">⛔️</span></td>
+				</tr>
+				{% endfor %}
+		</table>    
+	</div>
+	{% endif %}
+	<div id="formSet">
+		<form id="putform">
+				<fieldset>
+						<legend>修改{{ (subMenu | selectattr('type', 'equalto', subType) | first).typeName }}</legend>
+						<div class="mb-3">
+							<label class="form-label" for="topic">種類：</label>
+							<select name="topic" id="putformTopic">
+							{% for topic in topics %}
+								<option value="{{topic.get('categoryid')}}">{{topic.get('name')}}</option>
+							{% endfor %}
+							</select><br>
+						</div>
+						<div class="mb-3">
+								<label class="form-label" for="putformName">名稱：</label>
+								<input class="form-control" name="name" id="putformName" /><br>
+						</div>
+						<div class="mb-3">
+								<label class="form-label" for="putformImage">圖片：</label>
+								<input class="form-control" name="image" type="file" id="putformImage" /><br>
+						</div>
+						<div class="mb-3">
+								<label class="form-label" for="putformDimension">尺寸：</label>
+								<input class="form-control" name="dimension" id="putformDimension" /><br>
+						</div>
+						<div class="mb-3">
+								<label class="form-label" for="putformMaterial">材質：</label>
+								<input class="form-control" name="material" id="putformMaterial" /><br>
+						</div>
+						<div class="mb-3">
+								<label class="form-label" for="putformInfo">備註：</label><br>
+							<textarea class="form-control" name="info" id="putformInfo" rows="10" cols="50"></textarea><br>
+						</div>
+						<input type="hidden"  name="id" id="putformId" />
+					<button class="btn btn-danger" type="button" id="putformButton">送出</button>         
+				</fieldset>
+		</form>
+	</div>
+  <script>
+  {% if msg and msg != "" %}
+      window.parent.postMessage({
+          msg: {{ msg | tojson }}
+      }, "*");
+  {% endif %}
+
+  function putData(id, topic, name, dimension, material, info) {
+    document.getElementById('putform').style.display = "block";
+    document.getElementById('putformId').value = id;
+    document.getElementById('putformTopic').value = topic;
+    document.getElementById('putformName').value = name;
+    document.getElementById('putformDimension').value = dimension;
+    document.getElementById('putformMaterial').value = material;
+    document.getElementById('putformInfo').value = info;
+  }
+
+   const putFormButton = document.getElementById('putformButton');
+
+   putFormButton.addEventListener('click', async function() {
+      const id = document.getElementById('putformId').value;
+      const formData = new FormData();     
+     
+      formData.append('name', document.getElementById('putformName').value);
+     
+      const fileInput = document.getElementById('putformImage');
+      if (fileInput.files.length > 0) {
+        formData.append('image', fileInput.files[0]);
+      }
+      
+      formData.append('dimension', document.getElementById('putformDimension').value);      
+      formData.append('material', document.getElementById('putformMaterial').value); 
+     
+      formData.append('info', document.getElementById('putformInfo').value);
+      formData.append('categoryid', document.getElementById('putformTopic').value);
+
+      try{
+        const response = await fetch(`/internal/{{mainType}}/{{subType}}/${id}`, {
+          method: 'PUT',
+          body: formData
+        });
+
+        if (!response.ok){
+          throw new Error(`HTTP ${response.status}`);
+        }
+
+        const data = await response.json();
+        alert(data.msg);
+        location.reload();
+
+      } catch (error){
+        console.error(error);
+        alert('修改失敗');
+      }
+    });
+
+   async function deleteData(id){
+     try{
+        const response = await fetch(`/internal/{{mainType}}/{{subType}}/${id}`, {
+          method: 'DELETE'
+        });
+
+        if (!response.ok){
+          throw new Error(`HTTP ${response.status}`);
+        }
+
+        const data = await response.json();
+        alert(data.msg);
+        location.reload();
+
+      } catch (error){
+        console.error(error);
+        alert('刪除失敗');
+      }
+   }
+   
+   function changeFrame(mainType, subType){
+     location.href = `/backend/${mainType}/${subType}`;
+   }
+</script>
+</body>
+</html>

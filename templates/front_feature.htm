@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Precision Instruments;Low Earth Satellite;Energy Development;stark inductries co, LTD.;">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/front.css') }}" >
+  <title>特色</title>
+</head>
+<body>
+ 
+ <div class="features-container">
+  {% for topic in topics %}
+    {% if topic.featuretypeid != 3 %}
+    <div class="feature">
+      <div class="featureItem">
+     <!-- 
+       產品特色 width 50%
+       每個標題需要橫幅
+     -->
+      <h2>{{topic.chinese_name}}</h2>
+      {% set rows = features | selectattr("topic", "equalto", topic.featuretypeid) | list %}
+      {% for row in rows %}
+        <h3>{{row.title}}</h3>
+        <pre>{{row.content}}</pre><br />
+      {% endfor %}
+    </div>
+  </div>
+    
+   {% endif %}
+  {% endfor %}
+  </div>
+</body>
+</html>

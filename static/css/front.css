@@ -1,0 +1,297 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  color: antiquewhite;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  margin: 0 auto;
+  background-image: url(/static/img/structure/pexels.webp);
+  background-repeat: round;
+}
+
+h2 {
+  color: red;
+  margin: 20px 0;
+  font-style: italic;  
+}
+
+h3 {
+  color: darkgoldenrod;
+  margin: 20px 0;
+}
+
+p {
+  font-size: 20px;
+  color: rgb(231, 153, 58);
+}
+
+pre{
+  font-family: inherit;
+  font-size: 1.1rem;
+  font-weight: bold;
+  white-space: pre-wrap;
+}
+
+table {
+	font-size: 1rem; 
+	text-align: center;
+}
+
+th {
+  color: darkgoldenrod;
+	text-align: center;
+}
+
+td {
+  padding: 1.5vh 1vw;
+	text-align: center;
+  vertical-align: middle;
+}
+
+td pre{
+  font-size: 1.3rem;
+	text-align: left;
+	padding-left: 1vw; 
+}
+
+td img{
+	width: 100%;
+}
+
+.top {
+  width: 100%;
+}
+
+.header {  
+  width: 100%;
+  display: flex;
+  align-items:  center;
+  gap: 5vw;
+  margin-bottom: 25px;
+}
+
+.header img {
+  max-width: 200px;
+  height: auto;
+}
+
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2em;
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+}
+
+.nav a {
+  text-decoration: none;
+  color: darkgoldenrod;
+  font-weight: bold;
+  transition: color 0.2s;
+}
+
+.nav a:hover {
+  color: goldenrod;
+  background-color: #660000;
+  border-radius: .4rem;
+}
+
+.nav a:focus {
+  color: gold;
+  background-color:#330000;
+  border-radius: .4rem;
+}
+
+.frontFrame{  
+  display: flex;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.frontFrame iframe{
+  width: 100%;  
+  height: auto; /* 初始高度 */
+  border: none;
+  overflow: hidden; /* 隱藏 iframe 的滾動條 */
+}
+
+
+.footer {
+  width: 100%;
+  display: flex;
+  flex-direction: column; /* 改為上下垂直排列 */
+  align-items: center;
+  padding: 20px 0;
+  border-top: 1px solid #ccc;
+}
+
+.footer-author {
+  display: flex;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.footer-author p{
+  font-size: 1rem;
+  color: rgb(231, 153, 58);
+}
+
+.footer-links {
+  width: 100%;
+  display: flex;
+  justify-content: space-around; /* 項目水平平均分佈 */
+  align-items: flex-start;
+  font-size: 1rem;
+  color: black;
+}
+
+.footer-info {
+  cursor: pointer;
+}  
+
+#rawTable{
+  margin-bottom: .5vh;
+}
+
+
+.banner {
+  display: flex;
+  flex-direction: column;
+}
+
+#mainImage{
+  display: flex;
+  margin: 1vh auto 1vh;
+  width: 60%;
+}
+
+#mainImage img{      
+  width: 600%;
+  height: 150%;
+  border: .5vw solid black;
+}
+
+#subImageList {
+  width: 65%;
+  display: flex;
+  justify-content: space-around;
+  align-items:  center;
+  margin: 0 auto;
+  gap: 1em;
+}
+
+.subImage{
+  width: 100px;
+}
+
+.subImage img{
+  width: 100%;
+  height: 100%;
+}
+
+#history pre{
+  margin: 1vh 1.5vw;
+}
+
+.info {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.infoRow {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items:  center;
+}
+
+.infoItem{
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  margin-bottom: 1.3vh;
+}
+
+.infoItem img{
+  width: 100%;
+  height: 200px;
+}
+
+.features-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 100%;
+  gap: 20px;
+  
+}
+
+.feature {
+  width: 45%;
+  display: flex;
+  margin-bottom: 1vh;
+  border: 2px solid gray;
+  padding: 0 2vw;
+}
+
+.featureItem {
+  width:100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+#productCategory {
+  margin-bottom: 2vh;
+  font-size: 1.5rem;
+}
+#productCategory select{
+  font-size: 1.5rem;
+}
+
+#productCategory span{
+  margin-right: 2vw;
+}
+
+#productItems {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.productItem {
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+  text-align: center;
+}
+
+.productItem img{
+  width: 100%;
+  height: 15vh;
+  margin-bottom: 1vh;
+}
+
+.productItemInfo {
+	font-size: 1.3rem;
+	text-align: center;	
+	border: 1px solid black;
+}
+
+.productItemInfo tr{
+	margin: 5vh auto;
+	border: 1px solid black;
+	width: 100%;
+}
+
+.productItemInfo img{
+	width: 30%;
+}

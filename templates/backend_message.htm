@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="zh-Tw">
+
+<head>
+  <meta charset="UTF-8">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/backend.css') }}" >
+  <title>史打克工業後端管理系統</title> 
+</head>
+
+
+<body id="iframeBody">
+	<div class="backendSubMenu">
+		{% for type in subMenu %}
+		<button class="btn btn-outline-warning" onclick="changeFrame('{{mainType}}','{{type.type}}')">{{type.get('typeName')}}</button>
+		{% endfor%}
+	</div>
+	{% if data %}
+	<div>
+		<h2>{{ (subMenu | selectattr('type', 'equalto', subType) | first).typeName }}資料表</h2>
+		<table class="table table-dark" id="rawTable" border="1">
+				<tr class="table-danger">
+						<th>#</th>
+						<th>表單id</th>
+						<th>已閱讀</th>
+						<th>已確認</th>
+						<th>修改時間</th>
+						<th>修改</th>
+				</tr>
+				{% for row in data%}
+				<tr>
+						<td>{{row.messageid}}</td>
+						<td>{{row.formid}}</td>
+						<td>{{row.read}}</td>
+						<td>{{row.processed}}</td>
+						<td><script>document.write(new Date(Number({{row.lastUpdate}}) * 1000).toLocaleString());</script></td>
+						<td><span  onclick='putData(
+								{{ row.messageid | tojson }},
+								{{ row.formid | tojson }},
+								{{ row.processed  | tojson }}
+						)'>🛠️</span></td>
+				</tr>
+				{% endfor %}
+		</table>    
+	</div>
+	<br >
+	{% endif %}
+	<div id="formSet">     
+		<table class="table table-dark" id="putTable" border="1" style="display: none;">
+			<tr class="table-danger">
+						<th width="3%">#</th>
+						<th width="6%">公司</th>
+						<th width="6%">聯絡人</th>
+						<th width="8%">信箱</th>
+						<th width="10%">地址</th>
+						<th width="6%">電話</th>
+						<th width="10%">標題</th>
+						<th width="45%">內容</th>
+						<th width="6%">新增時間</th>
+			</tr>
+			<tr id="putData">
+			</tr>
+		</table>
+		<br >
+		<form id="putform">
+				<fieldset>
+						<legend>修改{{ (subMenu | selectattr('type', 'equalto', subType) | first).typeName }}</legend>
+						<div class="form-switch">
+							<input class="form-check-input" type="checkbox" role="switch" name="enable" id="putformEnable" checked />
+							<label class="form-check-label" for="putformEnable">已完成</label><br>
+						</div><br >
+						<input type="hidden"  name="id" id="putformId" />
+					<button class="btn btn-danger" type="button" id="putformButton">送出</button>
+				</fieldset>
+		</form>
+	</div>
+  <script>
+  {% if msg and msg != "" %}
+      window.parent.postMessage({
+          msg: {{ msg | tojson }}
+      }, "*");
+  {% endif %}
+
+  async function putData(id, formid, processed) {
+    const setMessageRead = await fetch(`/internal/{{mainType}}/{{subType}}/read/${id}`, {
+      method: 'PUT'
+    });
+    
+    document.getElementById('putform').style.display = "block";
+    document.getElementById('putTable').style.display = "block";
+    document.getElementById('putformId').value = id;
+    document.getElementById('putformEnable').checked = processed;
+    
+    const response = await fetch(`/internal/{{mainType}}/form/${formid}`, {
+      method: 'GET'
+    });
+
+    if (!response.ok){
+      throw new Error(`HTTP ${response.status}`);
+    }
+    const datas = await response.json();
+    const data = datas.data;    
+    
+    let tr = document.getElementById('putData');
+    tr.innerHTML = '';
+    let td = document.createElement('td');
+    let value = document.createTextNode(data.formid);  
+    td.appendChild(value);
+    tr.appendChild(td);
+    td = document.createElement('td');
+    value = document.createTextNode(data.companyname);  
+    td.appendChild(value);
+    tr.appendChild(td);
+    td = document.createElement('td');
+    value = document.createTextNode(data.contactname);  
+    td.appendChild(value);
+    tr.appendChild(td);
+    td = document.createElement('td');
+    value = document.createTextNode(data.email);  
+    td.appendChild(value);
+    tr.appendChild(td);
+    td = document.createElement('td');
+    value = document.createTextNode(data.address);  
+    td.appendChild(value);
+    tr.appendChild(td);
+    td = document.createElement('td');
+    value = document.createTextNode(data.phone);  
+    td.appendChild(value);
+    tr.appendChild(td);
+    td = document.createElement('td');
+    value = document.createTextNode(data.title);  
+    td.appendChild(value);
+    tr.appendChild(td);
+    td = document.createElement('td');
+    value = document.createTextNode(data.content);  
+    td.appendChild(value);
+    tr.appendChild(td);
+    td = document.createElement('td');
+    let addtime = new Date(Number(data.addtime) * 1000).toLocaleString();
+    value = document.createTextNode(addtime);
+    td.appendChild(value);
+    tr.appendChild(td);
+  }
+
+   const putFormButton = document.getElementById('putformButton');
+
+   putFormButton.addEventListener('click', async function() {
+      const id = document.getElementById('putformId').value;
+      try{
+        const response = await fetch(`/internal/{{mainType}}/{{subType}}/processed/${id}`, {
+          method: 'PUT',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            processed: document.getElementById('putformEnable').checked,
+          })
+        });
+
+        if (!response.ok){
+          throw new Error(`HTTP ${response.status}`);
+        }
+
+        const data = await response.json();
+        alert(data.msg);
+        location.reload();
+
+      } catch (error){
+        console.error(error);
+        alert('修改失敗');
+      }
+    });   
+   
+   function changeFrame(mainType, subType){
+     location.href = `/backend/${mainType}/${subType}`;
+   }
+</script>
+</body>
+</html>

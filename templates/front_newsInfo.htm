@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="Precision Instruments;Low Earth Satellite;Energy Development;stark inductries co, LTD.;">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/front.css') }}" >
+	<style>
+		body {
+			width: 100%;
+		}
+	</style>
+  <title>新聞內容</title>
+</head>
+<body>
+  <div id="topic">
+   <!-- 
+    新聞內容
+   -->
+   <table class="table table-sm table-dark" style="font-size:20px; text-align: center;" id="rawTable" >
+      <tr>
+        <th>標題</th><td colspan="3">{{news.title}}</td>
+      </tr>
+      <tr>
+        <th>新增時間</th>
+        <td><script>document.write(new Date(Number({{news.addtime}}) * 1000).toLocaleString());</script></td>
+        <th>更新時間</th>
+       <td><script>document.write(new Date(Number({{news.lastUpdate}}) * 1000).toLocaleString());</script></td>
+     </tr>
+     <tr class="table-Warning">
+			 <td colspan="4" style="padding: 1.3vh 0;"><pre>{{news.content}}</pre></td> 
+     </tr>
+  </table>
+  </div>  
+</body>
+</html>

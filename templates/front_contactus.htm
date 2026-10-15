@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="description" content="Precision Instruments;Low Earth Satellite;Energy Development;stark inductries co, LTD.;">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/front.css') }}">
+	<title>聯絡表單</title>
+	<style>
+		body {
+			width: 60%;
+			margin: 0 auto;
+		}
+		td {
+			text-align: left;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="topic">
+		<div class="formSet">
+			<form action="/internal/contactUs/form" method="POST" enctype="multipart/form-data">
+				<table class="table table-dark table-sm table-bordered border-danger" style="font-size:20px; text-align: center;" id="rawTable">
+					<tr>
+						<td>
+							<div class="mb-3">
+								<label class="form-label" for="companyname">公司名稱：</label>
+							</div>
+						</td>
+						<td>
+							<div class="mb-3">
+								<input class="form-control" name="companyname" />
+							</div>
+						</td>
+						<td>
+							<div class="mb-3">
+								<label class="form-label" for="contactname">聯絡人名稱：</label>
+							</div>
+						</td>
+						<td>
+							<div class="mb-3">
+								<input class="form-control" name="contactname" required />
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<div class="mb-3">
+								<label class="form-label" for="address">地址：</label>
+							</div>
+						</td>
+						<td colspan="3">
+							<div class="mb-3">
+								<input class="form-control" name="address" />
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<div class="mb-3">
+								<label class="form-label" for="phone">電話：</label>
+							</div>
+						</td>
+						<td>
+							<div class="mb-3">
+								<input class="form-control" type="tel" name="phone" required />
+							</div>
+						</td>
+						<td>
+							<div class="mb-3">
+								<label class="form-label" for="email">Email：</label>
+							</div>
+						</td>
+						<td>
+							<div class="mb-3">
+								<input class="form-control" type="email" name="email" required />
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<div class="mb-3">
+								<label class="form-label" for="title">標題：</label>
+							</div>
+						</td>
+						<td colspan="3">
+							<div class="mb-3">
+								<input class="form-control" name="title" required /><br>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="4">
+							<label class="form-label" for="content">內容：</label><br>
+							<textarea class="form-control" name="content" rows="10" cols="50" required></textarea><br>
+							<div style="text-align: right;">
+								<input class="btn btn-secondary" style="text-align: right;" type="reset" value="重置" />
+								<input class="btn btn-danger" style="text-align: right;" type="submit" value="送出" />							
+							</div>												
+						</td>
+					</tr>
+			</table>
+		</form>
+	</div>
+	</div>
+</body>
+
+</html>

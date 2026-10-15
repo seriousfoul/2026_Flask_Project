@@ -1,0 +1,92 @@
+body {
+  background-color: black;
+	color: gold;
+	width: 100%;
+	font-size: 1rem; 
+}
+
+label {
+  margin-right: 40px;
+}
+
+table {
+	text-align: center;
+}
+
+tr {
+	vertical-align: middle;
+}
+
+pre{
+  font-family: inherit;
+  font-size: 1.1rem;
+  font-weight: bold;
+  white-space: pre-wrap;
+	text-align: left;
+}
+
+#iframeBody {
+	padding: 0 2em;
+}
+
+#page {
+  width: 100%;
+}
+
+#putform {
+   display: none;
+}
+
+.formSet {
+  width: 40%;
+  padding-left: 2em;
+}
+
+.backend {
+  display: flex;
+  width: 100%;
+}
+
+.backendMainMenu {
+  width: 15%;
+  min-height: 750px;
+  border: solid;
+}
+
+.backendMainMenu img {
+  width: 100%;
+  height: auto;
+}
+
+.backendMainMenu button {
+  font-size: 1.5rem;
+  width: 100%;
+}
+
+.backendInfo {
+  border: solid;  
+  width: 85%;
+}
+
+.backendSubMenu {
+  width: 100%;
+  padding-top: 2em;
+  padding-bottom: 2em;
+}
+
+.backendSubMenu button {
+  margin-left: .5em;
+}
+
+.backendContent {
+  width: 100%;
+}
+
+.footer {
+  width: 100%;
+}
+
+.showImage {
+  width: 90%;
+  height: 10em;
+}

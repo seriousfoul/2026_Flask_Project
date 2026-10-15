@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="Precision Instruments;Low Earth Satellite;Energy Development;stark inductries co, LTD.;">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/front.css') }}" >
+	<title>檔案下載</title>
+	<style>
+		body {
+			width: 100%;
+		}		
+	</style>
+</head>
+  
+<body>
+  <div id="topic">
+   <table class="table table-sm  table-dark" style="font-size:20px; text-align: center;" id="rawTable" >
+      <tr>
+        <th width="15%">檔案名稱</th>
+        <th width="8%">版本</th>
+        <th width="8%">容量</th>
+        <th width="10%">更新時間</th>
+        <th>備註</th>
+        <th width="5%">下載</th>      
+     </tr>
+   {% for row in data%}
+     <tr>
+       <td>{{row.name}}</td>
+       <td>{{row.version}}</td>
+       <td>{{row.size}}</td>
+       <td><script>document.write(new Date(Number({{row.lastUpdate}}) * 1000).toLocaleString());</script></td>
+			 <td><pre>{{row.info}}</pre></td>     
+       <td><a href="{{row.filepath}}" download>💾</a></td>         
+     </tr>
+   {% endfor %}
+  </table>
+  </div>  
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Precision Instruments;Low Earth Satellite;Energy Development;stark inductries co, LTD.;">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/front.css') }}" >
+  <title>產品</title>
+</head>
+<body>
+  <div id="productCategory">
+    <span>產品類別</span>
+    <select onchange="changeTopic(Number(this.value))" style="color: black;">
+      {% for topic in topics%}
+        <option value="{{topic.categoryid}}" style="color: black;">
+          {{topic.name}}
+        </option>
+      {% endfor %}
+    </select>    
+  </div>
+  <div id="productItems">
+   <!-- 
+    ▪ 顯示預設產品，預設顯示每行5個，最多8行
+    ▪ 點選圖片與標題，會到產品內頁，內頁裡產品規格
+    ▪ 有頁數
+    -->
+  </div>
+  <br />  
+  <div id="page">
+  </div>
+  <script>
+    
+  function changeFrame(id) {
+    location.href = `/products/productInfo/${id}`;
+  }
+  var products = {{products | tojson}};
+  var topicProducts = [];    
+  var pagelength = 0;     
+  var newproducts = [];
+  var currentPage = 1;
+    
+  function changeTopic(topicid){    
+    topicid;
+    topicProducts = products.filter(product => product.categoryid === topicid);
+    pagelength = Math.ceil(topicProducts.length / 20);
+    let pageObject = document.getElementById("page");
+    let pageChilend = document.querySelectorAll("#page a");
+    if (pageChilend.length > 0){
+      pageObject.replaceChildren();
+    }
+    if (pagelength > 1){
+      let a = document.createElement("a");
+      a.onclick="newPageList('<')";
+      a.innerHTML = '〈';
+      pageObject.appendChild(a);
+      for (let i = 0; i < pagelength; i++){
+        a = document.createElement("a");
+        a.onclick = `"newPageList(${i})"`;
+        a.innerHTML = i+1;
+        pageObject.appendChild(a);
+      }
+      a = document.createElement("a");
+      a.onclick="newPageList('>')";
+      a.innerHTML = '〉';
+      pageObject.appendChild(a);      
+    }
+    newPageList();
+  }
+  changeTopic(1);
+  
+  function newPageList(page = 1){    
+    if (page === "<")
+      currentPage--;
+    else if( page === ">")
+      currentPage++;
+    else
+      currentPage = page;
+    
+    if (currentPage < 1)
+      currentPage = 1;
+    if (currentPage > pagelength)
+      currentPage = pagelength;
+    
+    newproducts = topicProducts.slice((currentPage-1) * 20, currentPage*20);
+    let items = document.getElementById("productItems");
+    if (items.childElementCount > 0)
+      items.replaceChildren();
+    let div;
+    let img;
+    let p;
+    let text;
+    for(let row of newproducts){
+      div = document.createElement("div");
+      div.classList.add("productItem");
+      
+      img = document.createElement("img");
+      img.src = row['imgpath'];
+      img.onerror = function() {
+        this.onerror = null;
+        this.src = '../static/img/structure/waiting.png'; // 請替換成你的預設圖片路徑
+      };      
+      img.onclick = () => changeFrame(row['itemid']);
+      
+      p = document.createElement("p");
+      p.onclick = () => changeFrame(row['itemid']);
+      
+      text = document.createTextNode(`${row['name']}`)
+      
+      p.appendChild(text);
+      div.appendChild(img);
+      div.appendChild(p);
+      items.appendChild(div);
+    }
+  }
+</script> 
+</body>
+
+</html>
