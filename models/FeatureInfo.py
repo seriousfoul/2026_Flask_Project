@@ -17,7 +17,7 @@ CREATE TABLE "features" (
 class FeatureInfo(db.Model):    
     __tablename__ = "feature_info"
     featureinfoid = db.Column(db.Integer, primary_key=True)
-    topic = db.Column(db.Integer, default=1)
+    topic = db.Column(db.Integer, default=1, nullable=False)
     title = db.Column(db.Text, nullable=False)
     content = db.Column(db.Text, nullable=False)
     addtime = db.Column(db.Integer, default= lambda: int(time.time()))

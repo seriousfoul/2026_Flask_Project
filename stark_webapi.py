@@ -19,7 +19,5 @@ app.register_blueprint(front)
 
 db.init_app(app)
 
-
-
 if __name__ == "__main__":
     app.run()

@@ -17,7 +17,7 @@ class Banner(db.Model):
     bannerid = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(30))
     imgpath = db.Column(db.String(100), nullable=False)
-    enable = db.Column(db.Boolean, default=True)
+    enable = db.Column(db.Boolean, default=True, nullable=False)
     addtime = db.Column(db.Integer, default= lambda: int(time.time()))
     
     def __init__(self, name, imgPath, enable, addtime):

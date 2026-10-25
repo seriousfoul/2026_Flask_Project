@@ -21,9 +21,9 @@
 				<legend>新增{{ (subMenu | selectattr('type', 'equalto', subType) | first).typeName }}</legend>
 				<div class="mb-3">
 					<label class="form-label" for="question">問題：</label>
-					<textarea class="form-control" name="question" rows="3" cols="50" ></textarea><br>
+					<textarea class="form-control" name="question" rows="3" cols="50" maxlength="200" required ></textarea><br>
 					<label class="form-label" for="answer">答案：</label>
-					<textarea class="form-control" name="answer" rows="10" cols="50" ></textarea><br>
+					<textarea class="form-control" name="answer" rows="10" cols="50" required></textarea><br>
 				</div>          
 				<input class="btn btn-danger" type="submit" value="送出" />
 			</fieldset>
@@ -67,11 +67,11 @@
 						<legend>修改{{ (subMenu | selectattr('type', 'equalto', subType) | first).typeName }}</legend>
 						<div class="mb-3">
 								<label class="form-label" for="putformQuestion">標題：</label>
-								<textarea class="form-control" name="question" id="putformQuestion" rows="10" cols="50"></textarea><br>
+								<textarea class="form-control" name="question" id="putformQuestion" rows="10" cols="50" maxlength="200" required></textarea><br>
 						</div>
 						<div class="mb-3">
 								<label class="form-label" for="putformAnswer">內容：</label><br>
-							<textarea class="form-control" name="answer" id="putformAnswer" rows="10" cols="50"></textarea><br>
+							<textarea class="form-control" name="answer" id="putformAnswer" rows="10" cols="50" required></textarea><br>
 						</div>
 						<input type="hidden"  name="id" id="putformId" />
 					<button class="btn btn-danger" type="button" id="putformButton">送出</button>

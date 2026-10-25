@@ -20,11 +20,11 @@
 				<legend>新增{{ (subMenu | selectattr('type', 'equalto', subType) | first).typeName }}</legend>
 				<div class="mb-3">          
 					<label class="form-label" for="name">名稱：</label>
-					<input class="form-control" name="name" required/><br>
+					<input class="form-control" name="name" maxlength="30" required /><br>
 					<label class="form-label" for="image">檔案：</label>
-					<input class="form-control" type="file" name="pdf" /><br>
+					<input class="form-control" type="file" name="pdf" required/><br>
 					<label class="form-label" for="version">版本：</label>
-					<input class="form-control" name="version" required/><br>
+					<input class="form-control" name="version" maxlength="30" required/><br>
 					<label class="form-label" for="info">備註：</label><br>
 					<textarea class="form-control" name="info" rows="10" cols="50" ></textarea><br>            
 				</div>
@@ -77,15 +77,15 @@
 						<legend>修改{{ (subMenu | selectattr('type', 'equalto', subType) | first).typeName }}</legend>
 						<div class="mb-3">
 								<label class="form-label" for="putformName">名稱：</label>
-								<input class="form-control" name="name" id="putformName" /><br>
+								<input class="form-control" name="name" id="putformName" maxlength="30" required/><br>
 						</div>
 						<div class="mb-3">
 								<label class="form-label" for="putformFile">檔案：</label>
-								<input class="form-control" name="pdf" type="file" id="putformFile" /><br>
+								<input class="form-control" name="pdf" type="file" id="putformFile"/><br>
 						</div>
 						<div class="mb-3">
 								<label class="form-label" for="putformVersion">版本：</label>
-								<input class="form-control" name="version" id="putformVersion" /><br>
+								<input class="form-control" name="version" id="putformVersion" maxlength="30" required/><br>
 						</div>
 						<div class="mb-3">
 								<label class="form-label" for="putformInfo">備註：</label><br>

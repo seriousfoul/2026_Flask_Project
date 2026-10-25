@@ -21,13 +21,13 @@
 				<legend>新增{{ (subMenu | selectattr('type', 'equalto', subType) | first).typeName }}</legend>
 				<div class="mb-3">
 					<label class="form-label" for="name">名稱：</label>
-					<input class="form-control" name="name" /><br>
+					<input class="form-control" name="name" maxlength="30" required /><br>
 					<label class="form-label" for="chinese_name">中文：</label>
-					<input class="form-control" name="chinese_name" /><br><br>
+					<input class="form-control" name="chinese_name" maxlength="30" required /><br><br>
 					<div class="form-switch">
-									<input class="form-check-input" type="checkbox" role="switch" name="enable" id="enableTrue" value="true" checked />
-									<label class="form-check-label" for="enableTrue">啟用</label><br>
-							</div>
+							<input class="form-check-input" type="checkbox" role="switch" name="enable" id="enableTrue" value="true" checked />
+							<label class="form-check-label" for="enableTrue">啟用</label><br>
+					</div>
 				</div>          
 				<input class="btn btn-danger" type="submit" value="送出" />
 			</fieldset>
@@ -70,11 +70,11 @@
 						<legend>修改{{ (subMenu | selectattr('type', 'equalto', subType) | first).typeName }}</legend>
 						<div class="mb-3">
 								<label class="form-label" for="putformName">名稱：</label>
-								<input class="form-control" name="name" id="putformName" /><br>
+								<input class="form-control" name="name" id="putformName" maxlength="30" required/><br>
 						</div>
 						<div class="mb-3">
 								<label class="form-label" for="putformChineseName">中文：</label>
-								<input class="form-control" name="ChineseName" id="putformChineseName" /><br>
+								<input class="form-control" name="ChineseName" id="putformChineseName" maxlength="30" required/><br>
 						</div>
 						<div class="form-switch">
 								<input class="form-check-input" type="checkbox" role="switch" name="enable" id="putformEnable" checked />

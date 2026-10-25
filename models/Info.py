@@ -17,7 +17,7 @@ class Info(db.Model):
     infoid = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(30), nullable=False)
     imgpath = db.Column(db.String(100), nullable=False)
-    enable = db.Column(db.Boolean, default=True)
+    enable = db.Column(db.Boolean, default=True, nullable=False)
     addtime = db.Column(db.Integer, default= lambda: int(time.time()))
     
     def __init__(self, title, imgPath, enable, addtime):

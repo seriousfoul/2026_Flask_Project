@@ -22,17 +22,17 @@
 				<legend>新增{{ (subMenu | selectattr('type', 'equalto', subType) | first).typeName }}</legend>
 				<div class="mb-3">
 					<label class="form-label" for="name">公司：</label>
-					<input class="form-control" name="name" /><br>
+					<input class="form-control" name="name" maxlength="30" required/><br>
 					<label class="form-label" for="email">信箱：</label>
-					<input class="form-control" type="email" name="email" /><br>
+					<input class="form-control" type="email" name="email" maxlength="100" required /><br>
 					<label class="form-label" for="address">地址：</label>
-					<input class="form-control" name="address" /><br>
+					<input class="form-control" name="address" maxlength="100" required/><br>
 					<label class="form-label" for="phone">電話：</label>
-					<input class="form-control" type="tel" name="phone" /><br>
+					<input class="form-control" type="tel" name="phone" maxlength="20" required/><br>
 					<label class="form-label" for="fax">傳真：</label>
-					<input class="form-control" type="tel" name="fax" /><br>
+					<input class="form-control" type="tel" name="fax"  maxlength="20"/><br>
 					<label class="form-label" for="servicetime">服務時間：</label>
-					<textarea class="form-control" name="servicetime" rows="10" cols="50" >
+					<textarea class="form-control" name="servicetime" rows="10" cols="50">
 					</textarea><br>
 				</div>          
 				<input class="btn btn-danger" type="submit" value="送出" />
@@ -79,23 +79,23 @@
 						<legend>修改{{ (subMenu | selectattr('type', 'equalto', subType) | first).typeName }}</legend>
 						<div class="mb-3">
 								<label class="form-label" for="putformName">公司：</label>
-								<input class="form-control" name="name" id="putformName" /><br>
+								<input class="form-control" name="name" id="putformName" maxlength="30" required /><br>
 						</div>
 						<div class="mb-3">
 								<label class="form-label" for="putformEmail">信箱：</label>
-								<input class="form-control" type="email" name="email" id="putformEmail" /><br>
+								<input class="form-control" type="email" name="email" id="putformEmail" maxlength="100" required /><br>
 						</div>
 						<div class="mb-3">
 								<label class="form-label" for="putformAddress">地址：</label>
-								<input class="form-control" name="address" id="putformAddress" /><br>
+								<input class="form-control" name="address" id="putformAddress" maxlength="100" required /><br>
 						</div>
 						<div class="mb-3">
 								<label class="form-label" for="putformPhone">電話：</label>
-								<input class="form-control" type="tel" name="phone" id="putformPhone" /><br>
+								<input class="form-control" type="tel" name="phone" id="putformPhone" maxlength="20" required /><br>
 						</div>
 						<div class="mb-3">
 								<label class="form-label" for="putformFax">傳真：</label>
-								<input class="form-control" type="tel" name="fax" id="putformFax" /><br>
+								<input class="form-control" type="tel" name="fax" id="putformFax" maxlength="20" /><br>
 						</div>
 						<div class="mb-3">
 								<label class="form-label" for="putformServicetime">服務時間：</label>

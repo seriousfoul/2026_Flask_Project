@@ -1070,6 +1070,9 @@ def __DeleteFile(filePath: str):
         checkFile = False
         print("刪除失敗")
     return checkFile
+
+   
+    
     
 if __name__ == "__main__":    
     internal_bp.run(debug=True)

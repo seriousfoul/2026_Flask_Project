@@ -21,15 +21,15 @@
 				<legend>新增{{ (subMenu | selectattr('type', 'equalto', subType) | first).typeName }}</legend>
 				<div class="mb-3">
 					<label class="form-label" for="topic">種類：</label>
-					<select name="topic">
+					<select name="topic" required>
 					{% for topic in topics %}
 						<option value="{{topic.get('featuretypeid')}}">{{topic.get('chinese_name')}}</option>
 					{% endfor %}
 					</select><br>
-					<label class="form-label" for="title">標題：</label>
-					<input class="form-control" name="title" /><br><br>
+					<label class="form-label" for="title" >標題：</label>
+					<textarea class="form-control" name="title" rows="10" cols="50" required ></textarea><br><br>
 					<label class="form-label" for="content">內容：</label><br>
-					<textarea class="form-control" name="content" rows="10" cols="50" ></textarea><br>            
+					<textarea class="form-control" name="content" rows="10" cols="50" required ></textarea><br>            
 				</div>          
 				<input class="btn btn-danger" type="submit" value="送出" />
 			</fieldset>
@@ -76,7 +76,7 @@
 						<legend>修改{{ (subMenu | selectattr('type', 'equalto', subType) | first).typeName }}</legend>
 						<div class="mb-3">
 							<label class="form-label" for="topic">種類：</label>
-							<select name="topic" id="putformTopic">
+							<select name="topic" id="putformTopic" required>
 							{% for topic in topics %}
 								<option value="{{topic.get('featuretypeid')}}">{{topic.get('chinese_name')}}</option>
 							{% endfor %}
@@ -84,11 +84,11 @@
 						</div>
 						<div class="mb-3">
 								<label class="form-label" for="putformTitle">標題：</label>
-								<input class="form-control" name="title" id="putformTitle" /><br>
+								<textarea class="form-control" name="title" id="putformTitle" rows="10" cols="50" required ></textarea><br>
 						</div>
 						<div class="mb-3">
 								<label class="form-label" for="putformContent">內容：</label><br>
-							<textarea class="form-control" name="content" id="putformContent" rows="10" cols="50"></textarea><br>
+							<textarea class="form-control" name="content" id="putformContent" rows="10" cols="50" required ></textarea><br>
 						</div>
 						<input type="hidden"  name="id" id="putformId" />
 					<button class="btn btn-danger" type="button" id="putformButton">送出</button>

@@ -21,7 +21,7 @@
 				<legend>新增{{ (subMenu | selectattr('type', 'equalto', subType) | first).typeName }}</legend>
 				<div class="mb-3">
 					<label class="form-label" for="title">名稱：</label>
-					<input class="form-control" name="title" /><br>
+					<input class="form-control" name="title" maxlength="30" required/><br>
 					<label class="form-label" for="image">圖片：</label>
 					<input class="form-control" type="file" name="image" required /><br>
 				</div>
@@ -71,7 +71,7 @@
 						<legend>修改{{ (subMenu | selectattr('type', 'equalto', subType) | first).typeName }}</legend>
 						<div class="mb-3">
 								<label class="form-label" for="putformTitle">名稱：</label>
-								<input class="form-control" name="title" id="putformTitle" /><br>
+								<input class="form-control" name="title" id="putformTitle" maxlength="30" required/><br>
 						</div>
 						<div class="form-switch">
 								<input class="form-check-input" type="checkbox" role="switch" name="enable" id="putformEnable" checked />

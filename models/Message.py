@@ -18,8 +18,8 @@ class Message(db.Model):
     __tablename__ = "contactus_message"
     messageid = db.Column(db.Integer, primary_key=True)
     formid = db.Column(db.Integer, nullable=False)
-    read = db.Column(db.Boolean, default=False)
-    processed = db.Column(db.Boolean, default=False)
+    read = db.Column(db.Boolean, default=False, nullable=False)
+    processed = db.Column(db.Boolean, default=False, nullable=False)
     lastUpdate = db.Column(db.Integer, default=lambda: int(time.time()))
 
     def __init__(self, formid, read, processed, lastUpdate):

@@ -15,7 +15,7 @@ class Category(db.Model):
     __tablename__ = "products_category"
     categoryid = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(30), nullable=False)
-    enable = db.Column(db.Boolean, default=True)
+    enable = db.Column(db.Boolean, default=True, nullable=False)
     
     def __init__(self, name, enable):
         self.name = name
